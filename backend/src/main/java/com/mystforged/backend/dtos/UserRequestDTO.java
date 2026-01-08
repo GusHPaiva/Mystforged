@@ -1,4 +1,4 @@
-package dtos;
+package com.mystforged.backend.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
