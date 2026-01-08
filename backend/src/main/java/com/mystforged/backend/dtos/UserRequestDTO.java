@@ -22,7 +22,7 @@ public record UserRequestDTO(@Size(max = 50)String name,
                              @NotBlank
                              @Size(min = 8, max = 128)
                              @Pattern(
-                                     regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).*$",
+                                     regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_.-])(?=\\S+$).*$",
                                      message = "The password must be longer than 8 characters, contain a number, a lower case and uppercase letter and an special character"
                              )
                              String password ) {
