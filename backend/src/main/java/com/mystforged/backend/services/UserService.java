@@ -1,6 +1,6 @@
 package com.mystforged.backend.services;
 
-import com.mystforged.backend.dtos.UserRequestDTO;
+import com.mystforged.backend.dtos.RegisterRequestDTO;
 import com.mystforged.backend.dtos.UserResponseDTO;
 import com.mystforged.backend.exceptions.InternalConflictException;
 import com.mystforged.backend.models.User;
@@ -31,25 +31,25 @@ public class UserService {
                 .toList();
     }
 
-    public UserResponseDTO create(UserRequestDTO data) {
+    public UserResponseDTO create(RegisterRequestDTO data) {
 
         if (userRepository.existsByEmail(data.email())) {
             throw new InternalConflictException("This email is already in use");
         }
-        if (userRepository.existsByUsername(data.username())) {
-            throw new InternalConflictException("This username is already in use");
+        if (userRepository.existsByNickname(data.nickname())) {
+            throw new InternalConflictException("This nickname is already in use");
         }
 
         User newUser = new User();
         newUser.setEmail(data.email());
-        newUser.setUsername(data.username());
+        newUser.setNickname(data.nickname());
         newUser.setPassword(passwordEncoder.encode(data.password()));
         newUser.setName(data.name());
         User user = userRepository.save(newUser);
 
         return new UserResponseDTO(
                 user.getName(),
-                user.getUsername(),
+                user.getNickname(),
                 user.getId(),
                 user.getEmail(),
                 user.getCreatedAt()
