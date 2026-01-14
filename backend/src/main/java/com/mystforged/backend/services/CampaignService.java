@@ -7,20 +7,35 @@ import com.mystforged.backend.models.Campaign;
 import com.mystforged.backend.models.User;
 import com.mystforged.backend.repositories.CampaignRepository;
 import com.mystforged.backend.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.UUID;
 
-
+@RequiredArgsConstructor
 @Service
 public class CampaignService {
 
     private final CampaignRepository campaignRepository;
     private final UserRepository userRepository;
-    public CampaignService(CampaignRepository campaignRepository, UserRepository userRepository) {
-        this.campaignRepository = campaignRepository;
-        this.userRepository = userRepository;
+
+    public List<CampaignResponseDTO> getAllCampaigns() {
+
+        return campaignRepository.findAllByActiveTrue().stream()
+                .map(campaign -> new CampaignResponseDTO(
+                        campaign.getId(),
+                        campaign.getName(),
+                        campaign.getDescription(),
+                        campaign.getImageUrl(),
+                        campaign.getInviteCode(),
+                        campaign.isActive(),
+                        campaign.getCreatedAt(),
+                        new GmDTO(campaign.getGmUser().getId(),campaign.getGmUser().getName(), campaign.getGmUser().getAvatarUrl())
+                        ))
+                .toList();
+
     }
     private String inviteCodeGenerator(){
         StringBuilder inviteCode = new StringBuilder(6);
