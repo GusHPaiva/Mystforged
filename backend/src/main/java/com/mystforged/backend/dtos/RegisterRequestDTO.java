@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record UserRequestDTO(@Size(max = 50)String name,
+public record RegisterRequestDTO(@Size(max = 50)String name,
 
                              @NotBlank
                              @Size(min = 3, max = 50)
@@ -13,7 +13,7 @@ public record UserRequestDTO(@Size(max = 50)String name,
                                      regexp = "^[a-zA-Z0-9._]+$",
                                      message = "Username cannot contain spaces or special characters"
                              )
-                             String username,
+                             String nickname,
 
                              @NotBlank
                              @Email
