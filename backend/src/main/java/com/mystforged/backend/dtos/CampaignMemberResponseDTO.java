@@ -1,7 +1,5 @@
 package com.mystforged.backend.dtos;
 
-import com.mystforged.backend.models.Campaign;
-import com.mystforged.backend.models.User;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
