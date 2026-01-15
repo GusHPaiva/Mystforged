@@ -1,10 +1,10 @@
 package com.mystforged.backend.services;
 
-import com.mystforged.backend.dtos.CampaignRequestDTO;
-import com.mystforged.backend.dtos.CampaignResponseDTO;
-import com.mystforged.backend.dtos.GmDTO;
+import com.mystforged.backend.dtos.*;
 import com.mystforged.backend.models.Campaign;
+import com.mystforged.backend.models.CampaignMember;
 import com.mystforged.backend.models.User;
+import com.mystforged.backend.repositories.CampaignMemberRepository;
 import com.mystforged.backend.repositories.CampaignRepository;
 import com.mystforged.backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +14,15 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.UUID;
 
+import static java.util.stream.Collectors.toList;
+
 @RequiredArgsConstructor
 @Service
 public class CampaignService {
 
     private final CampaignRepository campaignRepository;
     private final UserRepository userRepository;
+    private final CampaignMemberRepository campaignMemberRepository;
 
     public List<CampaignResponseDTO> getAllCampaigns() {
 
@@ -56,6 +59,42 @@ public class CampaignService {
         }
         return inviteCode.toString();
     }
+    public CampaignMemberResponseDTO joinCampaign(String inviteCode, User user) {
+        Campaign campaign = campaignRepository.findCampaignByInviteCode(inviteCode).orElseThrow(()-> new RuntimeException("Campaign not found"));
+        if (campaignMemberRepository
+                .existsByUserAndCampaign(user, campaign)) {
+            throw new RuntimeException("User already joined this campaign");
+        }
+        CampaignMember newMember = CampaignMember.builder()
+                .user(user)
+                .campaign(campaign)
+                .build();
+        CampaignMember campaignMember= campaignMemberRepository.save(newMember);
+        return new CampaignMemberResponseDTO(
+                campaignMember.getId(),
+                campaignMember.getCampaign().getId(),
+                campaignMember.getUser().getId(),
+                campaignMember.getCurrentCharacterId(),
+                campaignMember.isActive(),
+                campaignMember.getJoinedAt()
+                );
+    }
+    public List<CampaignMemberResponseDTO> getAllCampaignsMembers() {
+
+        return campaignMemberRepository.findAllByActiveTrue().stream()
+                .map(campaignsMembers -> new CampaignMemberResponseDTO(
+                        campaignsMembers.getId(),
+                        campaignsMembers.getCampaign().getId(),
+                        campaignsMembers.getUser().getId(),
+                        campaignsMembers.getCurrentCharacterId(),
+                        campaignsMembers.isActive(),
+                        campaignsMembers.getJoinedAt()
+                        )
+                )
+                .toList();
+
+    }
+
     public CampaignResponseDTO create(CampaignRequestDTO data, UUID gmId) {
         String inviteCode = inviteCodeGenerator();
         Campaign newcampaign = new Campaign();

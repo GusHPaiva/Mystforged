@@ -1,5 +1,7 @@
 package com.mystforged.backend.controllers;
 
+import com.mystforged.backend.dtos.CampaignMemberRequestDTO;
+import com.mystforged.backend.dtos.CampaignMemberResponseDTO;
 import com.mystforged.backend.dtos.CampaignRequestDTO;
 import com.mystforged.backend.dtos.CampaignResponseDTO;
 import com.mystforged.backend.models.User;
@@ -31,5 +33,17 @@ public class CampaignController {
         CampaignResponseDTO newCampaign = campaignService.create(body,user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(newCampaign);
 
+    }
+    @PostMapping("/join")
+    public ResponseEntity<CampaignMemberResponseDTO> join(@RequestBody @Valid CampaignMemberRequestDTO body, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        CampaignMemberResponseDTO newMember = campaignService.joinCampaign(body.inviteCode(), user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newMember);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<CampaignMemberResponseDTO>> listAllMembersActive() {
+        List<CampaignMemberResponseDTO> members = campaignService.getAllCampaignsMembers();
+        return ResponseEntity.ok(members);
     }
 }
