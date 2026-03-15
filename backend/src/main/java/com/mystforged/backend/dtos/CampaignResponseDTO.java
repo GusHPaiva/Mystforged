@@ -11,6 +11,6 @@ public record CampaignResponseDTO(
         String inviteCode,
         boolean active,
         LocalDateTime createdAt,
-        GmDTO gm
+        UserDTO gm
 ) {
 }

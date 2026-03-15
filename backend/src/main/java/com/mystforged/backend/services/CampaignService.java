@@ -34,7 +34,7 @@ public class CampaignService {
                         campaign.getInviteCode(),
                         campaign.isActive(),
                         campaign.getCreatedAt(),
-                        new GmDTO(campaign.getGmUser().getId(),campaign.getGmUser().getName(), campaign.getGmUser().getAvatarUrl())
+                        new UserDTO(campaign.getGmUser().getId(),campaign.getGmUser().getName(), campaign.getGmUser().getAvatarUrl())
                         ))
                 .toList();
 
@@ -116,7 +116,7 @@ public class CampaignService {
                 campaign.getInviteCode(),
                 campaign.isActive(),
                 campaign.getCreatedAt(),
-                new GmDTO(gm.getId(), gm.getName(), gm.getAvatarUrl())
+                new UserDTO(gm.getId(), gm.getName(), gm.getAvatarUrl())
 
         );
 
