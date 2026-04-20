@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import './App.css'
-
+import './index.css'
+import Login from './Login'
 function App() {
   return (
     <div>
-      <h1>Mystforged RPG</h1>
-      <p>Sistema Iniciado.</p>
+      <Login />
     </div>
   )
 }
