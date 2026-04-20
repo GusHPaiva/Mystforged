@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import './index.css'
-import Login from './Login'
+import { BrowserRouter } from 'react-router-dom'
+import { Router } from './Router'
+
 function App() {
   return (
-    <div>
-      <Login />
-    </div>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   )
 }
 
