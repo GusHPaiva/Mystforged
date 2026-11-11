@@ -62,6 +62,9 @@ public class Character {
     @Column(columnDefinition = "jsonb")
     private StatusData status;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private AbilitiesData abilities;
     @Builder.Default
     private boolean active = true;
 }

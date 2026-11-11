@@ -34,7 +34,6 @@ public class ProgressionData implements Serializable {
     public static class Skill implements Serializable {
         private String name;
         private int level;
-        private int currentPt;
         private Map<String, Proficiency > proficiencies = new HashMap<>();
     }
     @Data

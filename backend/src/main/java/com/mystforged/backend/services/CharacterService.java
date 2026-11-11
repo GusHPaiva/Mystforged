@@ -11,6 +11,10 @@ import com.mystforged.backend.repositories.CharacterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+
 @RequiredArgsConstructor
 @Service
 public class CharacterService {
@@ -35,5 +39,29 @@ public class CharacterService {
                 newcharacter.getStatus()
         );
         return character;
+    }
+
+    public List<CharacterResponseDTO> get(User userData) {
+        List<Character> characters = characterRepository.findAllByUser_Id(userData.getId());
+        if (characters == null) {
+            return null;
+        }
+        List<CharacterResponseDTO> charactersList = characters.stream().map(character -> new CharacterResponseDTO(
+                character.getId(),
+                character.getName(),
+                new UserDTO(userData.getId(),userData.getName(),userData.getAvatarUrl()),
+                null,
+                character.getImage_url(),
+                character.getBio(),
+                character.getSequence(),
+                character.getProgression(),
+                character.getTraits(),
+                character.getConditions(),
+                character.getInventory(),
+                character.getStatus()
+                )
+
+        ).toList();
+        return charactersList;
     }
 }

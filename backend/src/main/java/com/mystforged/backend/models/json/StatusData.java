@@ -1,5 +1,6 @@
 package com.mystforged.backend.models.json;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,12 @@ public class StatusData implements Serializable {
     private int currentHP;
     private int currentEs;
     private int maxPdc;
+
+    @JsonProperty("maxHP")
+    public int getMaxHP() {
+        return (10);
+    }
+
     private int guard;
     private int lt;
     private int movement;

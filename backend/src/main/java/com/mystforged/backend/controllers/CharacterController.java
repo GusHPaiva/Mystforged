@@ -10,10 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/characters")
@@ -21,7 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CharacterController {
 
     private final CharacterService characterService;
-
+    @GetMapping
+    public ResponseEntity<List<CharacterResponseDTO>> getCharactersByUser(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        List<CharacterResponseDTO> characters =  characterService.get(user);
+        return ResponseEntity.status(HttpStatus.OK).body(characters);
+    }
     @PostMapping
     public ResponseEntity<CharacterResponseDTO> create(@RequestBody @Valid CharacterCreateDTO character, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
