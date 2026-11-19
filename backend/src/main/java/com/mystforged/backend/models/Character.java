@@ -1,6 +1,6 @@
 package com.mystforged.backend.models;
 
-import com.mystforged.backend.models.json.*;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Data
@@ -16,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "characters")
 public class Character {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,39 +35,15 @@ public class Character {
     @JoinColumn(name = "campaign_id")
     private Campaign campaign;
 
-    private String image_url;
+    @Column(name = "image_url")
+    private String imageUrl;
+
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private BioData bio;
+    @Column(name = "sheet_data", columnDefinition = "jsonb")
+    @Builder.Default
+    private Map<String, Object> sheetData = new HashMap<>();
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private SequenceData sequence;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private ProgressionData progression;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private TraitsData traits;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private ConditionsData conditions;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private InventoryData inventory;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private StatusData status;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private AbilitiesData abilities;
     @Builder.Default
     private boolean active = true;
 }

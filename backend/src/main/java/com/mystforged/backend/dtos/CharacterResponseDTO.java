@@ -1,7 +1,6 @@
 package com.mystforged.backend.dtos;
 
-import com.mystforged.backend.models.json.*;
-
+import java.util.Map;
 import java.util.UUID;
 
 public record CharacterResponseDTO(UUID id,
@@ -9,12 +8,6 @@ public record CharacterResponseDTO(UUID id,
                                    UserDTO user,
                                    CampaignResponseDTO campaign,
                                    String imageUrl,
-                                   BioData bio,
-                                   SequenceData sequence,
-                                   ProgressionData progression,
-                                   TraitsData traits,
-                                   ConditionsData conditions,
-                                   InventoryData inventory,
-                                   StatusData status
+                                   Map<String, Object> sheetData
                                    ) {
 }
